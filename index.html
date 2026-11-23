@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ministry Tracker</title>
+  <meta name="apple-mobile-web-app-title" content="Ministry">
+  <meta name="theme-color" content="#0A5A4F">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <script>
+    // Opened from the home screen icon (?app=1, fresh tab): go straight to the app.
+    var APP = 'https://script.google.com/macros/s/AKfycbySsf_DAZwniH_hu2E0UGbMXa0Rya7cRkiJzw_RMUjO0oiWFT8casSAgnr5gB30sxnZmA/exec';
+    var adding = false;
+    try { adding = sessionStorage.getItem('mt.adding') === '1'; } catch (e) { adding = false; }
+    if (/[?&]app=1\b/.test(location.search) && !adding) location.replace(APP);
+  </script>
+  <style>
+    :root { --bg: #ECF0EE; --ink: #111916; --muted: #4A5550; --teal: #0A5A4F; --line: #D3DBD7; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 440px; margin: 0 auto; padding: 48px 20px 40px; display: flex; flex-direction: column; gap: 20px; }
+    .logo { width: 88px; height: 88px; }
+    h1 { margin: 0; font-size: 28px; line-height: 1.2; }
+    p { margin: 0; color: var(--muted); }
+    .btn { display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 14px; font: inherit; font-weight: 700;
+      text-decoration: none; border: 1.5px solid var(--teal); cursor: pointer; width: 100%; }
+    .primary { background: var(--teal); color: #fff; }
+    .outline { background: #fff; color: var(--teal); }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+    .card h2 { margin: 0 0 8px; font-size: 18px; }
+    ol { margin: 0; padding-left: 22px; } li { margin: 4px 0; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <img class="logo" src="logo.svg" alt="">
+    <h1>Ministry Tracker</h1>
+    <div id="start" class="stack">
+      <p style="margin-bottom:20px">Return visits, Bible studies and ministry hours. Sign in with the Google account you use for the app.</p>
+      <a class="btn primary" id="open">Open the app</a>
+      <div style="height:12px"></div>
+      <button type="button" class="btn outline" id="add">Put the app icon on my home screen</button>
+    </div>
+    <div id="steps" hidden>
+      <p style="margin-bottom:16px">Now add this page to your home screen. Tapping the new icon opens the app straight away.</p>
+      <div class="card" style="margin-bottom:12px"><h2>iPhone</h2><ol>
+        <li>Tap the <b>Share</b> button (the square with an arrow pointing up).</li>
+        <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+        <li>Keep the name <b>Ministry</b> and tap <b>Add</b>.</li></ol></div>
+      <div class="card" style="margin-bottom:12px"><h2>Android (Chrome)</h2><ol>
+        <li>Tap the <b>⋮</b> menu at the top right.</li>
+        <li>Tap <b>Add to Home screen</b>, then <b>Add</b>.</li></ol></div>
+      <p>If you already have an older icon for the app, you can delete it.</p>
+    </div>
+  </main>
+  <script>
+    document.getElementById('open').href = APP;
+    document.getElementById('add').addEventListener('click', function () {
+      try { sessionStorage.setItem('mt.adding', '1'); } catch (e) { /* private mode */ }
+      location.href = './?app=1';
+    });
+    if (adding && /[?&]app=1\b/.test(location.search)) {
+      document.getElementById('start').hidden = true;
+      document.getElementById('steps').hidden = false;
+    }
+  </script>
+</body>
+</html>
